@@ -10,3 +10,82 @@ body {
     color-scheme: dark;
   }
 }
+
+@layer base {
+  :root {
+    --darkBlue: 210 55 23;
+    --mediumBlue: 210 45 54;
+    --lightBlue: 210 50 79;
+    --goldenYellow: 45 80 60;
+    --alertRed: 0 72 58;
+    --successGreen: 120 61 50;
+  }
+
+  * {
+    @apply font-sans transition
+  }
+
+  h1, h2, h3 {
+    @apply font-bold;
+  }
+
+  h1 {
+    @apply text-4xl;
+  }
+
+  h2 {
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-2xl;
+  }
+
+  label {
+    @apply text-sm font-semibold;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    @apply px-2 py-1 border border-lightBlue rounded-md shadow-sm;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-md flex w-fit items-center justify-center shadow-sm;
+  }
+
+  .btn-outline {
+    @apply px-4 py-2 rounded-md flex w-fit items-center justify-center border border-lightBlue shadow-sm;
+  }
+
+  .outline-darkBlue {
+    @apply text-darkBlue border-darkBlue hover:bg-darkBlue/75;
+  }
+
+  .btn-darkBlue {
+    @apply bg-darkBlue text-white hover:bg-darkBlue/75;
+  }
+
+  .btn-lightBlue {
+    @apply bg-lightBlue text-white hover:bg-lightBlue/75;
+  }
+
+  .form-control {
+    @apply grid mb-4;
+  }
+
+  .card {
+    @apply bg-white shadow-md rounded-lg overflow-hidden px-6 py-8 max-w-md;
+    display: flex;
+    flex-direction: column;
+    max-height: 50vh;
+  }
+
+  .card-description {
+    @apply italic text-sm ps-3 font-semibold;
+    color: hsl(var(--lightBlue) / 0.9)
+  }
+}
