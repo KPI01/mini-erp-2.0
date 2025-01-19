@@ -4,6 +4,8 @@ export default [
     index("routes/home.tsx"),
     route("guest", "routes/guest/layout.tsx", [
         route("login", "routes/guest/login.tsx"),
-
+    ]),
+    route("app", "routes/app/layout.tsx", [
+        index("routes/app/index.tsx"),
     ])
 ] satisfies RouteConfig;

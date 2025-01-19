@@ -1,15 +1,20 @@
 import { redirect } from "react-router";
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient, type User } from "@prisma/client";
+import { saveSession, sessionStorage } from "./cookie";
+
+const loginRoute = '/guest/login';
 
 let prisma = new PrismaClient();
 
 export async function login(request: Request) {
-    const username = (await request.formData()).get('username');
-    const password = (await request.formData()).get('password');
+    console.log("Iniciando sesión")
+    const form = await request.formData();
+    const username = form.get('username');
+    const password = form.get('password');
 
     if (!username || !password) {
         console.log('Alguno de los datos esta vacío')
-        throw redirect('/login', {
+        throw redirect(loginRoute, {
             status: 400,
             headers: {
                 'Content-Type': 'application/json',
@@ -25,7 +30,7 @@ export async function login(request: Request) {
             if (!user) {
                 console.log('Usuario no encontrado')
                 prisma.$disconnect();
-                throw redirect('/login', {
+                throw redirect(loginRoute, {
                     status: 401,
                     headers: {
                         'Content-Type': 'application/json',
@@ -39,11 +44,26 @@ export async function login(request: Request) {
             return user;
         })
         console.log('usuario:', user)
+        const sessionUser: Omit<User, "password"> = {
+            id: user.id,
+            name: user.name,
+            username: user.username,
+            email: user.email
+        };
 
-        return user
+        const session = await sessionStorage.getSession();
+        await saveSession(session, { user: sessionUser });
+        const headers = new Headers({
+            "Set-Cookie": await sessionStorage.commitSession(session)
+        })
+
+        throw redirect("/app", {
+            headers: headers,
+            status: 200,
+        })
     }
 
-    return redirect('/login', {
+    throw redirect(loginRoute, {
         status: 400,
         headers: {
             'Content-Type': 'application/json',
