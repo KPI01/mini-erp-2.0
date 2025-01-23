@@ -1,13 +1,9 @@
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import { Outlet } from "react-router";
 
-export function Layout() {
+export default function Layout() {
   return (
-    <main className="grid h-screen place-content-center bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-lightBlue/25 from-0% to-white to-70% font-sans text-darkBlue">
+    <main className="bg-transparent">
       <Outlet />
     </main>
   );
-}
-
-export default function App() {
-  return <Outlet />;
 }

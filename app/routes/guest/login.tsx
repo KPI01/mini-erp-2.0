@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { login } from "~/server/auth/login";
 import { getSession } from "~/server/auth/cookie";
 import type { Route } from "./+types/login";
+import Input from "~/components/forms/Input";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Login", description: "Iniciar sesión en la plataforma" }];
@@ -59,28 +60,29 @@ export default function LoginForm() {
         method="post"
         action="/guest/login"
       >
-        <div className="form-control">
-          <label htmlFor="username">Usuario</label>
-          <input type="text" id="username" name="username" />
-        </div>
-        <div className="form-control">
-          <label htmlFor="password">Contraseña</label>
-          <div className="flex gap-3">
-            <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              name="password"
-              className="basis-full"
-            />
-            <button
-              type="button"
-              className="btn-outline"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <Eye /> : <EyeOff />}
-            </button>
-          </div>
-        </div>
+        <Input
+          label="Usuario"
+          input={{
+            type: "text",
+            id: "username",
+            name: "username",
+          }}
+        />
+        <Input
+          label="Contraseña"
+          input={{
+            type: showPassword ? "text" : "password",
+            id: "password",
+            name: "password",
+            className: "basis-full",
+          }}
+          btn={{
+            type: "button",
+            className: "btn-outline",
+            onClick: () => setShowPassword(!showPassword),
+          }}
+          icon={showPassword ? <Eye /> : <EyeOff />}
+        />
         <button
           type="submit"
           className="btn btn-darkBlue ms-auto mt-4 gap-3 text-lg font-bold"
