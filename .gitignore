@@ -1,18 +1,19 @@
 # Miscellaneous
-.DS_Store
+/.DS_Store
 
 # Node.js
-node_modules/
-*-lock.*
+/node_modules/
+/*-lock.*
 
 # React Router
 /.react-router/
-build/
+/build/
 
 # Environment
-.env
-.env.*
+/.env
+/.env.*
 
 # Prisma
-prisma/*.db
-prisma/migrations/
+/*/*.db
+/*/*.db-*
+/*/migrations/
