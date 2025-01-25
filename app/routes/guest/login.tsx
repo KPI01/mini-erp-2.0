@@ -4,7 +4,6 @@ import {
   type ActionFunctionArgs,
   type MetaFunction,
 } from "react-router";
-import { Eye, EyeOff } from "lucide-react";
 import { useEffect, useState } from "react";
 import { login } from "~/server/auth/login";
 import { sessionExists } from "~/server/auth/session";
@@ -18,6 +17,8 @@ export const meta: MetaFunction = () => {
 
 export async function loader({ request }: Route.LoaderArgs) {
   const session = await sessionExists(request);
+
+  if (session) throw redirect("/app");
 }
 
 export async function action({ request }: ActionFunctionArgs) {

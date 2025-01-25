@@ -1,12 +1,11 @@
 import { Eye, EyeOff, SendIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useFetcher, type MetaFunction } from "react-router";
+import { redirect, useFetcher, type MetaFunction } from "react-router";
 import Input from "~/components/forms/Input";
 import type { Route } from "./+types/register";
 import { sessionExists } from "~/server/auth/session";
-import { EraseIcon, HideIcon, ShowIcon } from "~/components/icons";
+import { HideIcon, ShowIcon } from "~/components/icons";
 import { register } from "~/server/auth/register";
-import type { User } from "@prisma/client";
 import { cleanErrors } from "~/helpers/utils";
 
 export const meta: MetaFunction = () => {
@@ -21,9 +20,7 @@ export const meta: MetaFunction = () => {
 export async function loader({ request }: Route.LoaderArgs) {
   const session = await sessionExists(request);
 
-  if (session) {
-    console.log("session data:", JSON.stringify(session));
-  }
+  if (session) throw redirect("/app");
 }
 
 export async function action({ request }: Route.ActionArgs) {
