@@ -7,7 +7,7 @@ export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ];
 
-export function Layout() {
+export default function Layout() {
   return (
     <html lang="es">
       <head>
@@ -16,15 +16,11 @@ export function Layout() {
         <Meta />
         <Links />
       </head>
-      <body className="grid h-screen place-content-center bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-lightBlue/25 from-0% to-white to-70% font-sans text-darkBlue">
+      <body className="grid h-screen place-content-center font-sans text-(--darkBlue) bg-radial from-(--darkBlue)/15 from-5% to-white">
         <Outlet />
         <Scripts />
         <ScrollRestoration />
       </body>
     </html>
   );
-}
-
-export default function App() {
-  return <Outlet />;
 }

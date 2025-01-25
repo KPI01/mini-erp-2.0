@@ -1,13 +1,13 @@
 import { redirect } from "react-router";
 import { PrismaClient, type User } from "@prisma/client";
-import { saveSession, sessionStorage } from "./cookie";
+import { sessionStorage, saveInSession } from "./session";
 
 const loginRoute = '/guest/login';
 
 let prisma = new PrismaClient();
 
 export async function login(request: Request) {
-    console.log("Iniciando sesión")
+    console.log("Iniciando sesión...")
     const form = await request.formData();
     const username = form.get('username');
     const password = form.get('password');
@@ -52,15 +52,12 @@ export async function login(request: Request) {
         };
 
         const session = await sessionStorage.getSession();
-        await saveSession(session, { user: sessionUser });
+        await saveInSession(session, { user: sessionUser });
         const headers = new Headers({
             "Set-Cookie": await sessionStorage.commitSession(session)
         })
 
-        throw redirect("/app", {
-            headers: headers,
-            status: 200,
-        })
+        throw redirect("/app", { headers })
     }
 
     throw redirect(loginRoute, {

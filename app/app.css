@@ -58,7 +58,8 @@
   input[type="text"],
   input[type="email"],
   input[type="password"] {
-    @apply px-2 py-1 border border-(--lightBlue) rounded-md shadow-xs;
+    @apply px-2 py-1 border border-(--lightBlue) rounded-md shadow-xs h-[5ch];
+    max-height: 5ch
   }
 }
 
@@ -76,11 +77,16 @@
     @apply grid mb-4;
   }
 
+  .form-control>* {
+    @apply max-h-fit
+  }
+
   .card {
-    @apply bg-white shadow-md rounded-lg overflow-hidden px-6 py-8 max-w-md;
+    @apply bg-white shadow-md rounded-lg overflow-hidden px-6 py-8 max-w-2xl;
     display: flex;
     flex-direction: column;
     max-height: 50vh;
+    width: 45vw;
   }
 
   .card-description {

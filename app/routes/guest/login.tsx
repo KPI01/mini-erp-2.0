@@ -4,32 +4,23 @@ import {
   type ActionFunctionArgs,
   type MetaFunction,
 } from "react-router";
-import { Eye, EyeOff, Forward } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { useEffect, useState } from "react";
 import { login } from "~/server/auth/login";
-import { getSession } from "~/server/auth/cookie";
+import { sessionExists } from "~/server/auth/session";
 import type { Route } from "./+types/login";
 import Input from "~/components/forms/Input";
-import { SendIcon } from "~/components/icons";
+import { HideIcon, SendIcon, ShowIcon } from "~/components/icons";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Login", description: "Iniciar sesión en la plataforma" }];
 };
 
 export async function loader({ request }: Route.LoaderArgs) {
-  console.log("loader");
-
-  const session = await getSession(request.headers.get("cookie"));
-  console.log("session:", session.data);
-
-  if (session.get("user")) {
-    throw redirect("/app");
-  }
+  const session = await sessionExists(request);
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-  console.log("action");
-
   await login(request);
 }
 
@@ -82,11 +73,11 @@ export default function LoginForm() {
             className: "btn btn-outline-lightBlue",
             onClick: () => setShowPassword(!showPassword),
           }}
-          icon={showPassword ? <Eye /> : <EyeOff />}
+          icon={showPassword ? <ShowIcon /> : <HideIcon />}
         />
         <button
           type="submit"
-          className="btn btn-darkBlue text-white ms-auto mt-4 gap-3 text-lg font-bold"
+          className="btn btn-darkBlue hover:bg-(--mediumBlue) text-white ms-auto mt-4 gap-3 text-lg font-bold"
         >
           Ingresar
           <SendIcon />
