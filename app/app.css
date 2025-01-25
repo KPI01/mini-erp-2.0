@@ -1,31 +1,41 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
+@plugin '@tailwindcss/forms';
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+@theme {
+  --darkBlue: hsl(210 55 23);
+  --mediumBlue: hsl(210 45 54);
+  --lightBlue: hsl(210 50 79);
+  --goldenYellow: hsl(45 80 60);
+  --alertRed: hsl(0 72 58);
+  --successGreen: hsl(120 61 50);
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
 @layer base {
-  :root {
-    --darkBlue: 210 55 23;
-    --mediumBlue: 210 45 54;
-    --lightBlue: 210 50 79;
-    --goldenYellow: 45 80 60;
-    --alertRed: 0 72 58;
-    --successGreen: 120 61 50;
+
+  html,
+  body {
+    @apply bg-white dark:bg-(--darkBlue) text-(--darkBlue) dark:text-(--lightBlue);
+
+    @media (prefers-color-scheme: dark) {
+      color-scheme: dark;
+    }
   }
 
-  * {
-    @apply font-sans transition
-  }
-
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     @apply font-bold;
   }
 
@@ -48,29 +58,18 @@ body {
   input[type="text"],
   input[type="email"],
   input[type="password"] {
-    @apply px-2 py-1 border border-lightBlue rounded-md shadow-sm;
+    @apply px-2 py-1 border border-(--lightBlue) rounded-md shadow-xs;
   }
 }
 
 @layer components {
   .btn {
-    @apply px-4 py-2 rounded-md flex w-fit items-center justify-center shadow-sm;
-  }
+    @apply transition px-4 py-2 rounded-md flex gap-2 w-fit items-center;
+    @apply justify-center shadow-xs cursor-pointer bg-transparent;
 
-  .btn-outline {
-    @apply px-4 py-2 rounded-md flex w-fit items-center justify-center border border-lightBlue shadow-sm;
-  }
-
-  .outline-darkBlue {
-    @apply text-darkBlue border-darkBlue hover:bg-darkBlue/75;
-  }
-
-  .btn-darkBlue {
-    @apply bg-darkBlue text-white hover:bg-darkBlue/75;
-  }
-
-  .btn-lightBlue {
-    @apply bg-lightBlue text-white hover:bg-lightBlue/75;
+    @variant hover {
+      @apply bg-(--lightBlue)/25
+    }
   }
 
   .form-control {
@@ -85,7 +84,20 @@ body {
   }
 
   .card-description {
-    @apply italic text-sm ps-3 font-semibold;
-    color: hsl(var(--lightBlue) / 0.9)
+    @apply italic text-sm font-light text-(--darkBlue)/35;
   }
+
+  @media (width >=80rem) {
+    .card {
+      max-height: fit-content;
+    }
+  }
+}
+
+@utility btn-* {
+  background-color: --value(--*);
+}
+
+@utility btn-outline-* {
+  border: 1px solid --value(--*)
 }

@@ -10,6 +10,7 @@ import { login } from "~/server/auth/login";
 import { getSession } from "~/server/auth/cookie";
 import type { Route } from "./+types/login";
 import Input from "~/components/forms/Input";
+import { SendIcon } from "~/components/icons";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Login", description: "Iniciar sesión en la plataforma" }];
@@ -78,17 +79,17 @@ export default function LoginForm() {
           }}
           btn={{
             type: "button",
-            className: "btn-outline",
+            className: "btn btn-outline-lightBlue",
             onClick: () => setShowPassword(!showPassword),
           }}
           icon={showPassword ? <Eye /> : <EyeOff />}
         />
         <button
           type="submit"
-          className="btn btn-darkBlue ms-auto mt-4 gap-3 text-lg font-bold"
+          className="btn btn-darkBlue text-white ms-auto mt-4 gap-3 text-lg font-bold"
         >
           Ingresar
-          <Forward />
+          <SendIcon />
         </button>
       </Form>
     </div>
