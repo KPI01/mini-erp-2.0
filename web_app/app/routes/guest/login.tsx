@@ -17,6 +17,7 @@ export const meta: MetaFunction = () => {
 
 export async function loader({ request }: Route.LoaderArgs) {
   const session = await sessionExists(request);
+  console.info("session:", session);
 
   if (session) throw redirect("/app");
 }
@@ -42,7 +43,7 @@ export default function LoginForm() {
   }, [showPassword]);
 
   return (
-    <div className="card">
+    <div className="card max-w-md">
       <h1>Tu Sistema ERP</h1>
       <p className="card-description">
         Bienvenido al sistema de tu empresa, por favor ingresa tus credenciales

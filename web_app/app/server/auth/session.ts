@@ -25,16 +25,27 @@ const sessionStorage = createCookieSessionStorage({
     },
 });
 
+async function checkCookieExists(request: Request, cookieName: string) {
+    const cookieHeader = request.headers.get("cookie");
+
+    if (!cookieHeader) return false;
+
+    const cookies = cookieHeader.split(';').map(cookie => cookie.trim());
+
+    return cookies.some(cookie => {
+        const [ name ] = cookie.split('=');
+        return name === cookieName;
+    });
+}
+
+
 async function sessionExists(request: Request) {
-    const cookieHeader = request.headers.get("cookie")
+    const hasCookie = await checkCookieExists(request, cookieName);
 
-    const session = await sessionStorage.getSession(cookieHeader)
+    if (!hasCookie) return undefined;
 
-    if (session) {
-        return session
-    }
-
-    return undefined
+    const cookieHeader = request.headers.get("cookie");
+    return sessionStorage.getSession(cookieHeader);
 }
 
 async function getSession(cookieHeader: string | null) {
