@@ -7,6 +7,9 @@
             "label": "dev server",
             "type": "shell",
             "command": "pnpm run dev",
+            "options": {
+                "cwd": "${workspaceFolder}/web_app"
+            },
             "runOptions": {
                 "runOn": "folderOpen"
             }
